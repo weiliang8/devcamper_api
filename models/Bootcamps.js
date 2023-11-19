@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
-const BootcampSchma = new mongoose.Schema({
+const BootcampSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please add a name"],
@@ -98,4 +99,10 @@ const BootcampSchma = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Bootcamp", BootcampSchma);
+// CREATE BOOTCAMP SLUG FROM THE NAME
+BootcampSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+module.exports = mongoose.model("Bootcamp", BootcampSchema);
