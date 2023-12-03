@@ -12,7 +12,19 @@ const Course = require('./models/Courses')
 
 
 // CONNECT TO DB
-mongoose.connect(process.env.MONGO_URI);
+// await mongoose.connect(process.env.MONGO_URI);
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI)
+
+    console.log('MongoDB connected!')
+  } catch (err) {
+    console.log('Failed to connect to MongoDB', err)
+  }
+}
+
+connectDB()
+
 
 // READ JSON FILES
 const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8'))
@@ -23,7 +35,7 @@ const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`, 'u
 const importData = async () => {
   try {
     await Bootcamp.create(bootcamps)
-    //await Course.create(courses)
+    await Course.create(courses)
 
     console.log('Data Imported...')
     process.exit()
