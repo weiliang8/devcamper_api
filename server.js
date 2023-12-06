@@ -19,6 +19,7 @@ connectDB();
 //ROUTE FILES
 const bootcamps = require("./routes/bootcamps");
 const courses = require("./routes/courses");
+const auth = require("./routes/auth");
 
 
 const app = express();
@@ -35,12 +36,12 @@ if (process.env.NODE_ENV === "development") {
 app.use(fileupload())
 
 // SET STATIC FOLDER
-app.use(express.static(path.join(__dirname,'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 //MOUNT ROUTER
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
-
+app.use("/api/v1/auth", auth);
 
 app.use(errorHandler);
 
