@@ -47,10 +47,7 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid credentials", 401));
   }
 
-  // CREATE TOKEN
-  const token = user.getSignedJwtToken();
-
-  res.status(200).json({ success: true, token });
+  sendTokenResponse(user, 200, res);
 });
 
 // GET TOKEN FROM MODEL, CREATE COOKIE AND SEND RESPONSE
@@ -69,10 +66,13 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true;
   }
 
-  res.status(statusCode).cookie("token", token, options).json({
+  res.cookie("token", token, options);
+
+  res.status(statusCode).json({
     success: true,
     token,
   });
+
 };
 
 // @desc Get current logged in user
@@ -81,8 +81,9 @@ const sendTokenResponse = (user, statusCode, res) => {
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user =await User.findById(req.user.id);
 
-  req.status(200).json({
+  res.status(200).json({
     success:true,
     data:user
   })
 }
+)

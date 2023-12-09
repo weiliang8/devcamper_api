@@ -29,7 +29,7 @@ const app = express();
 app.use(express.json());
 
 // COOKIE PARSER
-app.use(cookieParser)
+app.use(cookieParser())
 
 // DEV LOGGING MIDDLEWARE
 if (process.env.NODE_ENV === "development") {

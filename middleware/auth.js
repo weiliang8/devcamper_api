@@ -1,16 +1,14 @@
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("./async");
-const ErrorResponse = require("./utils/errorResponse");
-const User = require("../models/User");
+const ErrorResponse = require("../utils/errorResponse");
+const User = require("../models/Users");
 
 // PROTECT ROUTES
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
-  if (
-    res.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
+  if (req.header('authorization')&& req.header('authorization').startsWith("Bearer")) 
+  {
+    token = req.header('authorization').split(" ")[1];
   }
   // else if(req.cookies.token){
   //   token = req.cookies.token
